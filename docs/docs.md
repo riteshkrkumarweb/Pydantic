@@ -4,7 +4,7 @@
 
     Both are used to check whether input data is correct, but they focus on different things.
 
-    **Type Validation**
+   ## Type Validation
 
     Type validation checks what kind of data is being provided.
 
