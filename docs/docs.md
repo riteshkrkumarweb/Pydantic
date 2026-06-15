@@ -1,13 +1,12 @@
 # Pydentic 
-    To Know what is pydentic first know what is is TypeValidation and DataValidation 
-    Type Validation vs Data Validation
+    **To Know what is pydentic first know what is is TypeValidation and DataValidation 
+    Type Validation vs Data Validation**
 
     Both are used to check whether input data is correct, but they focus on different things.
 
    ## Type Validation
 
     Type validation checks what kind of data is being provided.
-
     In programming, every value has a data type such as:
 
     int → Integer (25)
