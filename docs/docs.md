@@ -7,8 +7,8 @@
 
 ## Type Validation
 
-[!IMPORTANT]
-    Type validation checks what kind of data is being provided.
+> [!IMPORTANT]
+    > Type validation checks what kind of data is being provided.
     In programming, every value has a data type such as:
 
     int → Integer (25)
