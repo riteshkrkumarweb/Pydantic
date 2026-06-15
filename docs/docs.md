@@ -51,11 +51,11 @@ To Know what is pydentic,  first know what is is TypeValidation and DataValidati
     Data validation → Failed 
 
     Real Life Examples of Data Validation Rules
-   * Age must be between 0 and 120
-   * Email must contain @
-   * Password length must be at least 8
-   * Salary cannot be negative
-   * Name cannot be empty
+    Age must be between 0 and 120
+    Email must contain @
+    Password length must be at least 8
+    Salary cannot be negative
+    Name cannot be empty
 
 
     Real API Example
