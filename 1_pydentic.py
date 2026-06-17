@@ -1,14 +1,14 @@
 from pydantic import BaseModel,EmailStr,AnyUrl,Field
-from typing import List , Dict,Optional
+from typing import List , Dict,Optional, Annotated
 
 class Patient(BaseModel):
 
-    name: str = Field(max_length=50) #Field is use for the custom data validation 
-    age: int = Field(gt=0)
-    weight: float
+    name: Annotated[str,Field(max_length=50,)] # Annotated is for the metadata also used with field()
+    age: int = Field(gt=0) #Field is use for the custom data validation 
+    weight: Annotated[float,Field(gt=0,strict=True)]
     linkedin:AnyUrl # If define the url and also validate the url instead of writing manually logic 
     email:EmailStr # instead of only string use Email that validate the email 
-    married: Optional[bool] = None # With optional parameter It is option, but also write = None so that database donot have null value instead in have NONE vlaue
+    married: Annotated[bool,Field(default=None,description='Enter that patient is married or not ')] # With optional parameter It is option, but also write = None so that database donot have null value instead in have NONE vlaue
     allergies: Optional[List[str]] = None 
 
     contact_details: Optional[Dict[str, str]] = None
