@@ -34,7 +34,6 @@ To Know what is pydentic,  first know what is is TypeValidation and DataValidati
     age → Integer 
     is_student → Boolean 
     # This is correct 
-
 # Data Validation
 
     Data validation checks whether the actual value is valid according to business rules.
@@ -78,7 +77,6 @@ To Know what is pydentic,  first know what is is TypeValidation and DataValidati
     Therefore, the request is rejected.
 
     Purpose	Ensure correct data type and Ensure meaningful data
-
 # pydentic 
     Pydantic is a Python library used for data validation, data parsing, and type enforcement using Python type hints.
     It checks whether the data you receive matches the expected data types and structure. If the data is invalid, it raises clear errors.
@@ -126,10 +124,9 @@ To Know what is pydentic,  first know what is is TypeValidation and DataValidati
 
     If something is wrong, it immediately reports an error.
 
-
 If u choose the optional parameter  it doesnot means the field the field in not required it give the error so u have to set the (married: Optional[bool] = None) so the it give database to None instead of Empty. 
+# In:**patient(why this is using ** ?)
 
-### In:**patient(why this is using ** ?)
     patient1 = Patient(**patient_info)
 
     **patient_info is called dictionary unpacking.
@@ -166,10 +163,12 @@ If u choose the optional parameter  it doesnot means the field the field in not 
 
     So, ** takes a dictionary and spreads its key-value pairs into separate named arguments.
 # Field()
+
     u can use the custom data validation using the field likin greatherthanequal , lessthanequalto, greatherthat , lessthathan , and many more more see the code . 
     pydentic automatically convert '23' to the integer so to stop this automatically we have a parameter 
     strict=True that not convert that type of data to the integer
-## What is Meta data ?     
+# What is Meta data ?  
+
     Metadata (or meta data) is simply data that describes other data.
 
     Think of it as information about a file, document, photo, or dataset that helps identify, organize, or understand it.
@@ -200,6 +199,7 @@ If u choose the optional parameter  it doesnot means the field the field in not 
     Genre
     Duration
 # Annoted()
+
  Annotated is a way to attach extra information to a type without changing the type itself.
  In Pydantic, it is often used together with Field().
 
@@ -208,6 +208,7 @@ If u choose the optional parameter  it doesnot means the field the field in not 
  Annotated[T, ...] → Attaches metadata to a type T.
  Pydantic reads the metadata inside Annotated and applies validation.
 # field_validator()
+
     field_validator() is used to write custom validation logic for one or more fields.
 
     Pydantic already validates basic things like
@@ -223,8 +224,8 @@ If u choose the optional parameter  it doesnot means the field the field in not 
     Email must belong to a company domain.
 
     These rules are not built into Pydantic, so you write a field_validator().
-
 # model_validator() 
+
 
     model_validator() is used to validate the entire model (all fields together).
 
@@ -240,7 +241,7 @@ If u choose the optional parameter  it doesnot means the field the field in not 
     Min age should be less than max age.
 
     These rules involve multiple fields, so field_validator() is not enough.
-   ### what is mode after and before in model_validator()
+   ## what is mode after and before in model_validator()
     you know that pydentic automatically convert '30' in to the integer so the after mode is that when the pydentic automatically convert the value when client give like age = '30' to age=30 when the model creates
     and before when before the model created means when the client enter the string age but i have not converted to integer. 
 
@@ -269,6 +270,7 @@ If u choose the optional parameter  it doesnot means the field the field in not 
     Model creation
 # computed_field() 
 
+
     computed_field() is used to create a field whose value is calculated from other fields instead of being provided by the user.
 
     Think of it as a derived field.
@@ -283,59 +285,233 @@ If u choose the optional parameter  it doesnot means the field the field in not 
     computed_field() creates fields whose values are automatically calculated from other fields in the model.
     Example:
 
-class Rectangle(BaseModel):
-    width: float
-    height: float
+    class Rectangle(BaseModel):
+        width: float
+        height: float
 
-    @computed_field
-    @property
-    def area(self) -> float:
-        return self.width * self.height
+        @computed_field
+        @property
+        def area(self) -> float:
+            return self.width * self.height
 
-If you create:
+    If you create:
 
-Rectangle(width=5, height=4)
+    Rectangle(width=5, height=4)
 
-the model behaves as if it has:
+    the model behaves as if it has:
 
-area = 20
+    area = 20
 
-even though you never provided area.
+    even though you never provided area.
 
-Why use it?
+    Why use it?
 
-Without computed_field():
+    Without computed_field():
 
-You must manually calculate values every time.
-The calculated value is not included when exporting the model.
+    You must manually calculate values every time.
+    The calculated value is not included when exporting the model.
 
-With computed_field():
+    With computed_field():
 
-The value is calculated automatically.
-It appears in model output like model_dump().
+    The value is calculated automatically.
+    It appears in model output like model_dump().
 
-Example output:
+    Example output:
 
-{
-    "width": 5,
-    "height": 4,
-    "area": 20
-}
-Important
+    {
+        "width": 5,
+        "height": 4,
+        "area": 20
+    }
+    Important
 
-A computed field:
+    A computed field:
 
-Depends on other fields.
-Is read-only by default.
-Is not provided by the client.
+    Depends on other fields.
+    Is read-only by default.
+    Is not provided by the client.
 
-The client sends:
+    The client sends:
 
-{
-    "width": 5,
-    "height": 4
-}
+    {
+        "width": 5,
+        "height": 4
+    }
 
-Pydantic computes:
+    Pydantic computes:
 
-area = 20
+    area = 20
+# Nested_model()
+   There is no built-in function called nested_model() in Pydantic.
+
+    When people say nested model, they mean putting one Pydantic model inside another model.
+
+    For example, a patient has an address.
+
+    Instead of writing:
+
+    city: str
+    state: str
+    pin: str
+
+    inside Patient, you create a separate model:
+
+    class Address(BaseModel):
+        city: str
+        state: str
+        pin: str
+
+    and use it inside another model:
+
+    class Patient(BaseModel):
+        name: str
+        age: int
+        address: Address
+
+    Here, Address is nested inside Patient.
+
+    This is called a nested model because one model is contained within another.
+
+    When creating a patient:
+
+    patient_info = {
+        "name": "Ritesh",
+        "age": "20",
+        "address": {
+            "city": "Varanasi",
+            "state": "UP",
+            "pin": "221011"
+        }
+    }
+
+    Pydantic automatically:
+
+    Creates the Address object.
+    Validates its fields.
+    Stores it inside Patient.
+
+    Result:
+
+    Patient(
+        name='Ritesh',
+        age=20,
+        address=Address(
+            city='Varanasi',
+            state='UP',
+            pin='221011'
+        )
+    )
+
+    Why use nested models?
+
+    Better organization of data.
+    Reuse models in multiple places.
+    Separate validation for different parts of data.
+    Useful for APIs with complex JSON.
+
+    Real-world examples:
+
+    Patient → Address
+    Order → Customer
+    Company → Employee
+    Blog → Author
+
+    In short:
+
+    A nested model is when one Pydantic model is used as a field inside another Pydantic model. There is no function named nested_model()
+
+# Serialization
+    Serialization is the process of converting an object or data structure into a format that can be stored or transmitted.
+
+    Common serialization formats:
+
+    JSON
+    XML
+    YAML
+    Binary formats (like Pickle in Python)
+    Why do we need Serialization?
+
+    Serialization is used when you want to:
+
+    Save data to a file
+    Send data over a network or API
+    Store data in a database
+    Transfer objects between systems
+    Example in Python
+
+    Suppose you have a Python dictionary:
+
+    student = {
+        "name": "Ritesh",
+        "age": 20
+    }
+
+    Convert it to JSON:
+
+    import json
+
+    json_data = json.dumps(student)
+
+    print(json_data)
+
+    Output:
+
+    '{"name": "Ritesh", "age": 20}'
+
+    Here:
+
+    student (Python dictionary) → JSON string
+    This conversion is called serialization.
+    Deserialization
+
+    The opposite process is called deserialization.
+
+    It converts stored/transmitted data back into an object.
+
+    Example:
+
+    import json
+
+    json_data = '{"name": "Ritesh", "age": 20}'
+
+    student = json.loads(json_data)
+
+    print(student)
+
+    Output:
+
+    {'name': 'Ritesh', 'age': 20}
+
+    Here:
+
+    JSON string → Python dictionary
+    This is deserialization.
+    Serialization in Pydantic
+
+    In Pydantic:
+
+    from pydantic import BaseModel
+
+    class User(BaseModel):
+        name: str
+        age: int
+
+    user = User(name="Ritesh", age=20)
+
+    print(user.model_dump())
+    print(user.model_dump_json())
+
+    Output:
+
+    {'name': 'Ritesh', 'age': 20}
+    '{"name":"Ritesh","age":20}'
+    model_dump() → Python dictionary serialization
+    model_dump_json() → JSON serialization
+    Simple Analogy
+
+    Imagine a toy car:
+
+    Serialization: Packing the toy car into a box for shipping 📦
+    Deserialization: Unpacking the box and getting the toy car back 🚗
+
+    In one sentence: Serialization converts objects into a storable or transferable format, while deserialization converts them back into objects.
